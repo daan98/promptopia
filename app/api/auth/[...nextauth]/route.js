@@ -31,16 +31,6 @@ const handler = NextAuth({
           email: profile.email,
         });
 
-        console.log({ userExists });
-        console.log({ profile });
-        console.log({
-          name: profile.name
-            .normalize("NFD")
-            .replace(" ", "")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase(),
-        });
-
         // if not, create new user
         if (!userExists) {
           await User.create({
@@ -52,7 +42,6 @@ const handler = NextAuth({
               .toLowerCase(),
             image: profile.picture,
           });
-          console.log("AQUIIIIIIII..........");
         }
 
         return true;
