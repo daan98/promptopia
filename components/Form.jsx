@@ -33,7 +33,7 @@ const Form = ({ type, handleSubmit, post, setPost, submitting }) => {
           </span>
 
           <textarea
-            vallue={post.prompt}
+            value={post.prompt}
             onChange={(e) => setPost({
               ...post,
               prompt: e.target.value
@@ -57,7 +57,7 @@ const Form = ({ type, handleSubmit, post, setPost, submitting }) => {
           </span>
 
           <input
-            vallue={post.tag}
+            value={post.tag}
             onChange={(e) => setPost({
               ...post,
               tag: e.target.value

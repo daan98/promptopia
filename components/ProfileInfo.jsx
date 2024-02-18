@@ -27,8 +27,8 @@ const ProfileInfo = ( {data, desc, handleDelete, handleEdit, username,}) => {
         <PromptCard
           key={post._id}
           post={post}
-          handleDelete={() => { handleDelete && handleDelete(post) }}
-          handleEdit={() => { handleEdit && handleEdit(post) }}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
         />
       ))}
     </div>

@@ -2,13 +2,12 @@ import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt.model";
 
 // GET (read)
-export const GET = async (request, params) => {
+export const GET = async (request, { params }) => {
+  const { id } = params;
   try {
     await connectToDB();
 
-    const { id } = params;
-
-    const prompt = await Prompt.findById(id).populate("creator");
+    const prompt = await Prompt.findById(params.id).populate("creator");
 
     if (!prompt) {
       return new Response("Prompt not found.", { status: 404 });
@@ -21,7 +20,7 @@ export const GET = async (request, params) => {
 };
 
 // PATCH (updated)
-export const PATCH = async (request, params) => {
+export const PATCH = async (request, { params }) => {
   const { prompt, tag } = await request.json();
   const { id } = params;
 
@@ -52,7 +51,7 @@ export const PATCH = async (request, params) => {
 };
 
 // DELETE (delete)
-export const DELETE = async (request, params) => {
+export const DELETE = async (request, { params }) => {
   const { id } = params;
 
   try {

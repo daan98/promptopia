@@ -64,6 +64,7 @@ const PromptCard = ({ post, handleDelete, handleEdit, handleTagClick }) => {
             }
             width={12}
             height={12}
+            alt="icon"
           />
         </div>
       </div>
@@ -80,19 +81,20 @@ const PromptCard = ({ post, handleDelete, handleEdit, handleTagClick }) => {
         { post.tag }
       </p>
 
-      {session?.user.id === post.creator._id && pathName === '/profile'&& (
+      {session?.user.id === post.creator._id && pathName === '/profile' && handleEdit && handleDelete && (
         <div
           className="flex flex-center gap-3 pt-2 mt-2 border-t border-gray-100"
         >
-          <p
+          <button
+            type="button"
             className="font-inter text-sm green_gradient cursor-pointer"
-            onClick={handleEdit}
+            onClick={() => handleEdit(post)}
           >
             Edit
-          </p>
+          </button>
           <p
             className="font-inter text-sm orange_gradient cursor-pointer"
-            onClick={handleDelete}
+            onClick={() => handleDelete(post)}
           >
             Delete
           </p>

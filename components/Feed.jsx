@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import PromptCard from "./PromptCard";
 
@@ -24,6 +25,7 @@ function Feed() {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [post, setPost]             = useState([]);
+  const { data: session } = useSession();
 
   const handleSearchTermChange = (e) => {
     e.preventDefault();
@@ -42,27 +44,31 @@ function Feed() {
   
 
   return (
-    <section
-      className="feed"
-    >
-      <form
-        className="relative w-full flex-center"
+    <>
+    {session?.user.id && (
+      <section
+        className="feed"
       >
-        <input
-          type="text"
-          placeholder="Search for a tag or username"
-          value={searchTerm}
-          onChange={handleSearchTermChange}
-          required
-          className="search_input peer"
-        />
-      </form>
+        <form
+          className="relative w-full flex-center"
+        >
+          <input
+            type="text"
+            placeholder="Search for a tag or username"
+            value={searchTerm}
+            onChange={handleSearchTermChange}
+            required
+            className="search_input peer"
+          />
+        </form>
 
-      <PromptCardList
-        data={post}
-        handleTagClick={() => {}}
-      />
-    </section>
+        <PromptCardList
+          data={post}
+          handleTagClick={() => {}}
+        />
+      </section>
+    )}
+    </>
   )
 }
 

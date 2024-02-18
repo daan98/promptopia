@@ -9,14 +9,15 @@ import ProfileInfo from "@components/ProfileInfo";
 const Profile = () => {
 
     const { data: session } = useSession();
-    const [post, setPost] = useState([]);
+    const router            = useRouter();
+    const [posts, setPosts] = useState([]);
 
     useEffect(() => {
         const fetchPosts = async () => {
             const response = await fetch(`/api/users/${session?.user.id}/posts`);
             const data = await response.json();
     
-            setPost(data);
+            setPosts(data);
         };
         
         if(session?.user.id) {
@@ -24,17 +25,38 @@ const Profile = () => {
         }
     }, []);
 
-    const onHandleDelete = async () => {};
+    const onHandleDelete = async (deletedPost) => {
+        const hasConfirmed = confirm('Are you sure you want to delete this prompt?');
 
-    const onHandleEdit = async () => {};
+        if(hasConfirmed) {
+            try {
+                await fetch(`/api/prompt/${deletedPost._id}`, {
+                    method: 'DELETE'
+                });
+
+                const filteredPosts = posts.filter((post) => post._id !== deletedPost._id)
+
+                setPosts(filteredPosts);
+                router.refresh();
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const onHandleEdit = async (actualPost) => {
+        if(actualPost._id) {
+            router.push(`/update-prompt?id=${actualPost._id}`);
+        }
+    };
 
     return (
         <ProfileInfo
             username="My"
             desc="Welcome to your personalized profile."
-            data={post}
-            handleEdit={()=> onHandleEdit}
-            handleDelete={()=> onHandleDelete}
+            data={posts}
+            handleEdit={onHandleEdit}
+            handleDelete={onHandleDelete}
         />
     );
 }
